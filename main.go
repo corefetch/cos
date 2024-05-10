@@ -1,9 +1,9 @@
 package main
 
 import (
-	"cozin/identity/api"
-	"cozin/identity/db"
-	"cozin/identity/sys"
+	"corefetch/identity/api"
+	"corefetch/identity/db"
+	"corefetch/identity/sys"
 	"net/http"
 	"os"
 

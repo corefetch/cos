@@ -1,4 +1,4 @@
-module cozin/identity
+module corefetch/identity
 
 go 1.22.0
 

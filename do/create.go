@@ -1,8 +1,8 @@
 package do
 
 import (
-	"cozin/identity/db"
-	"cozin/identity/sys"
+	"corefetch/identity/db"
+	"corefetch/identity/sys"
 	"net/mail"
 	"regexp"
 

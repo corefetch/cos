@@ -1,7 +1,7 @@
 package db
 
 import (
-	"cozin/identity/sys"
+	"corefetch/identity/sys"
 	"database/sql"
 	"os"
 

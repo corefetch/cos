@@ -1,8 +1,8 @@
 package api
 
 import (
-	"cozin/identity/db"
-	"cozin/identity/sys"
+	"corefetch/identity/db"
+	"corefetch/identity/sys"
 	"encoding/json"
 	"net/http"
 	"strings"
