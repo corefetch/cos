@@ -4,9 +4,16 @@ import (
 	"flag"
 
 	"github.com/joho/godotenv"
+	"go.uber.org/zap"
 )
 
 type M map[string]any
+
+func Logger() *zap.SugaredLogger {
+	logger, _ := zap.NewDevelopment()
+	defer logger.Sync()
+	return logger.Sugar()
+}
 
 func LoadEnv() {
 
