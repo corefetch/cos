@@ -6,7 +6,7 @@ import (
 	"github.com/joho/godotenv"
 )
 
-type M map[string]string
+type M map[string]any
 
 func LoadEnv() {
 

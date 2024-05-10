@@ -16,9 +16,14 @@ services:
     volumes:
       - ./db-init.sh:/docker-entrypoint-initdb.d/init-user-db.sh:ro
       - ./db-schema.sql:/docker-entrypoint-initdb.d/db-schema.sql:ro
-    
-  adminer:
-      image: adminer
-      restart: always
-      ports:
-        - 8080:8080
+
+  pgadmin:
+    image: dpage/pgadmin4:6.15
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: identity
+      PGADMIN_LISTEN_PORT: 8080
+    ports:
+      - 15432:8080
+    depends_on:
+      - db

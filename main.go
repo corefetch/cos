@@ -20,7 +20,7 @@ func main() {
 
 	mux.Post("/", api.Create)
 	mux.Post("/auth", api.Auth)
-	mux.Post("/me", api.Me)
+	mux.Get("/me", api.Me)
 	mux.Get("/verify", api.Verify)
 	mux.Post("/recover", api.Recover)
 	mux.Post("/ping/{adapter}", api.Ping)

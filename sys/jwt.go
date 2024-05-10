@@ -5,6 +5,8 @@ import (
 	"crypto/rsa"
 	"encoding/json"
 	"errors"
+	"net/http"
+	"strings"
 	"time"
 
 	"github.com/square/go-jose"
@@ -52,6 +54,26 @@ func CreateAuthKey(context AuthContext) (key string, err error) {
 	}
 
 	return object.CompactSerialize()
+}
+
+func AuthContextFromRequest(r *http.Request) (context *AuthContext, err error) {
+
+	key := r.URL.Query().Get("access_token")
+
+	if key == "" {
+
+		bearer := strings.Split(r.Header.Get("Authorization"), "Bearer ")
+
+		if len(bearer) == 2 {
+			key = bearer[1]
+		}
+	}
+
+	if key == "" {
+		return nil, errors.New("not authorized")
+	}
+
+	return AuthContextFromKey(key)
 }
 
 func AuthContextFromKey(key string) (context *AuthContext, err error) {

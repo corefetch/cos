@@ -2,6 +2,7 @@ package db
 
 import (
 	"bytes"
+	"cozin/identity/sys"
 	"encoding/json"
 	"strings"
 	"time"
@@ -17,18 +18,38 @@ type Account struct {
 	Created  time.Time         `json:"created"`
 }
 
-type AccountDisplay struct {
-	ID    int64             `json:"id"`
-	Names []string          `json:"names"`
-	Meta  map[string]string `json:"meta,omitempty"`
+func (a *Account) Display() sys.M {
+	return sys.M{
+		"id":    a.ID,
+		"names": a.Names,
+	}
 }
 
-func (a *Account) Display() AccountDisplay {
-	return AccountDisplay{
-		ID:    a.ID,
-		Names: a.Names,
-		Meta:  a.Meta,
+func (a *Account) DisplayWithMeta(filter []string) sys.M {
+
+	var matched = 0
+
+	var meta = make(map[string]string)
+
+	for key, value := range a.Meta {
+		for _, filterKey := range filter {
+			if key == filterKey {
+				meta[filterKey] = value
+				matched++
+			}
+		}
 	}
+
+	out := sys.M{
+		"id":    a.ID,
+		"names": a.Names,
+	}
+
+	if matched > 0 {
+		out["meta"] = meta
+	}
+
+	return out
 }
 
 func (a *Account) Save() error {
@@ -60,6 +81,45 @@ func (a *Account) Save() error {
 	}
 
 	return nil
+}
+
+func FindAccountByID(id int64) (account *Account, err error) {
+
+	sql := `
+	SELECT 
+		id, login, password, names, meta
+	FROM
+		accounts
+	WHERE
+		id = $1
+	`
+
+	row := db.QueryRow(sql, id)
+
+	if row.Err() != nil {
+		return nil, row.Err()
+	}
+
+	account = &Account{}
+
+	var names string
+	var meta string
+
+	err = row.Scan(
+		&account.ID,
+		&account.Login,
+		&account.Password,
+		&names,
+		&meta,
+	)
+
+	account.Names = strings.Split(names, ",")
+
+	if err := json.NewDecoder(bytes.NewBufferString(meta)).Decode(&account.Meta); err != nil {
+		return nil, err
+	}
+
+	return
 }
 
 func FindAccountByLogin(login string) (account *Account, err error) {
