@@ -4,24 +4,15 @@ import (
 	"cozin/identity/api"
 	"cozin/identity/db"
 	"cozin/identity/sys"
-	"flag"
 	"net/http"
 	"os"
 
 	"github.com/go-chi/chi/v5"
-	"github.com/joho/godotenv"
 )
 
 func main() {
 
-	devmode := flag.Bool("dev", false, "Specify development mode")
-	flag.Parse()
-
-	if *devmode {
-		godotenv.Load(".env.dev")
-	} else {
-		godotenv.Load()
-	}
+	sys.LoadEnv()
 
 	db.Init()
 
