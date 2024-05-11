@@ -21,6 +21,7 @@ func main() {
 	mux.Post("/", api.Create)
 	mux.Post("/auth", api.Auth)
 	mux.Get("/me", api.AuthGuard(api.Me))
+	mux.Put("/me", api.AuthGuard(api.UpdateMe))
 	mux.Put("/me/meta", api.AuthGuard(api.UpdateMeta))
 	mux.Get("/verify", api.Verify)
 	mux.Post("/recover", api.Recover)
