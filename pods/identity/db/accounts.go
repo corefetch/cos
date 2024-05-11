@@ -174,6 +174,8 @@ func (a *Account) Save() error {
 		return err
 	}
 
+	a.updateMeta()
+
 	return nil
 }
 
