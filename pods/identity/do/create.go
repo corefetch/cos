@@ -26,18 +26,18 @@ func CreateAccount(account *db.Account) (err error) {
 	}
 
 	// validate password and encrypt
-	password, err := createSecurePassword(account.Password)
+	password, err := CreateSecurePassword(account.Password)
 
 	if err != nil {
 		return errors.Wrap(err, "invalid password")
 	}
 
+	// replace password in account
+	account.Password = password
+
 	if len(account.Names) < 2 {
 		return errors.New("provide [first,last] names property")
 	}
-
-	// replace password in account
-	account.Password = password
 
 	if err := account.Save(); err != nil {
 		return err
@@ -50,7 +50,7 @@ func CreateAccount(account *db.Account) (err error) {
 	return
 }
 
-func createSecurePassword(password string) (pass string, err error) {
+func CreateSecurePassword(password string) (pass string, err error) {
 
 	const requirement = "password must contain at least a lowercase character, an uppercase character, and a digit"
 

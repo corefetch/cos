@@ -2,6 +2,7 @@ package api
 
 import (
 	"edx/pod/identity/db"
+	"edx/pod/identity/do"
 	"edx/pod/identity/sys"
 	"encoding/json"
 	"net/http"
@@ -25,6 +26,22 @@ func UpdateMe(w http.ResponseWriter, r *http.Request) {
 	}
 
 	account.Names = update.Names
+
+	if update.Password != "" {
+
+		// validate password and encrypt
+		password, err := do.CreateSecurePassword(update.Password)
+
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			sys.Logger().Errorf("failed to update password: %s", err.Error())
+			return
+		}
+
+		// replace password in account
+		account.Password = password
+
+	}
 
 	if err := account.Save(); err != nil {
 		w.WriteHeader(http.StatusBadRequest)
