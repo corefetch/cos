@@ -1,9 +1,10 @@
 package do
 
 import (
-	"corefetch/identity/db"
-	"corefetch/identity/sys"
+	"edx/pod/identity/db"
+	"edx/pod/identity/sys"
 	"net/mail"
+	"os"
 	"regexp"
 
 	"github.com/pkg/errors"
@@ -12,7 +13,9 @@ import (
 
 func CreateAccount(account *db.Account) (err error) {
 
-	if existent, err := db.FindAccountByLogin(account.Login); err == nil && existent != nil {
+	existent, err := db.FindAccountByLogin(account.Login)
+
+	if err == nil || existent != nil {
 		return errors.New("account with login already exists")
 	}
 
@@ -36,7 +39,15 @@ func CreateAccount(account *db.Account) (err error) {
 	// replace password in account
 	account.Password = password
 
-	return account.Save()
+	if err := account.Save(); err != nil {
+		return err
+	}
+
+	if os.Getenv("VERIFICATION") == "true" {
+		sys.Logger().Info("Send verification code")
+	}
+
+	return
 }
 
 func createSecurePassword(password string) (pass string, err error) {

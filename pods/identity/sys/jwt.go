@@ -19,7 +19,7 @@ const (
 	ScopeAdmin Scope = "admin"
 )
 
-var privateKey, _ = rsa.GenerateKey(rand.Reader, 2048)
+var PrivateKey, _ = rsa.GenerateKey(rand.Reader, 2048)
 
 type AuthContext struct {
 	User   int64     `json:"user"`
@@ -37,7 +37,7 @@ func CreateAuthKey(context AuthContext) (key string, err error) {
 		return "", errors.New("expected valid expiration")
 	}
 
-	signer, err := jose.NewSigner(jose.SigningKey{Algorithm: jose.PS512, Key: privateKey}, nil)
+	signer, err := jose.NewSigner(jose.SigningKey{Algorithm: jose.PS512, Key: PrivateKey}, nil)
 	if err != nil {
 		return "", err
 	}
@@ -83,7 +83,7 @@ func AuthContextFromKey(key string) (context *AuthContext, err error) {
 		return nil, err
 	}
 
-	data, err := object.Verify(&privateKey.PublicKey)
+	data, err := object.Verify(&PrivateKey.PublicKey)
 	if err != nil {
 		return nil, err
 	}

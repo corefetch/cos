@@ -1,9 +1,9 @@
 package main
 
 import (
-	"corefetch/identity/api"
-	"corefetch/identity/db"
-	"corefetch/identity/sys"
+	"edx/pod/identity/api"
+	"edx/pod/identity/db"
+	"edx/pod/identity/sys"
 	"net/http"
 	"os"
 
@@ -20,7 +20,8 @@ func main() {
 
 	mux.Post("/", api.Create)
 	mux.Post("/auth", api.Auth)
-	mux.Get("/me", api.Me)
+	mux.Get("/me", api.AuthGuard(api.Me))
+	mux.Put("/me/meta", api.AuthGuard(api.UpdateMeta))
 	mux.Get("/verify", api.Verify)
 	mux.Post("/recover", api.Recover)
 	mux.Post("/ping/{adapter}", api.Ping)

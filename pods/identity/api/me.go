@@ -1,8 +1,6 @@
 package api
 
 import (
-	"corefetch/identity/db"
-	"corefetch/identity/sys"
 	"encoding/json"
 	"net/http"
 	"strings"
@@ -10,17 +8,10 @@ import (
 
 func Me(w http.ResponseWriter, r *http.Request) {
 
-	ctx, err := sys.AuthContextFromRequest(r)
+	account, err := User(r)
 
 	if err != nil {
 		w.WriteHeader(http.StatusUnauthorized)
-		return
-	}
-
-	account, err := db.FindAccountByID(ctx.User)
-
-	if err != nil {
-		w.WriteHeader(http.StatusNotFound)
 		return
 	}
 

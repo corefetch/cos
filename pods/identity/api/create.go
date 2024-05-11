@@ -1,8 +1,8 @@
 package api
 
 import (
-	"corefetch/identity/db"
-	"corefetch/identity/do"
+	"edx/pod/identity/db"
+	"edx/pod/identity/do"
 	"encoding/json"
 	"net/http"
 )

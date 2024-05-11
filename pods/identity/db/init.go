@@ -1,8 +1,8 @@
 package db
 
 import (
-	"corefetch/identity/sys"
 	"database/sql"
+	"edx/pod/identity/sys"
 	"os"
 
 	_ "github.com/lib/pq"
@@ -16,7 +16,7 @@ func Init() {
 
 	dburi := os.Getenv("DB")
 
-	sys.Logger().Infof("Database connect to %s", dburi)
+	sys.Logger().Info("Database connecting...")
 
 	db, err = sql.Open("postgres", dburi)
 
