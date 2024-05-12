@@ -8,6 +8,7 @@ require (
 )
 
 require (
+	cloud.google.com/go/compute/metadata v0.3.0 // indirect
 	github.com/google/go-cmp v0.6.0 // indirect
 	github.com/stretchr/testify v1.9.0 // indirect
 	go.uber.org/multierr v1.10.0 // indirect
@@ -21,4 +22,5 @@ require (
 	github.com/pkg/errors v0.9.1
 	github.com/square/go-jose v2.6.0+incompatible
 	go.uber.org/zap v1.27.0
+	golang.org/x/oauth2 v0.20.0
 )
