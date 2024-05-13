@@ -1,5 +1,18 @@
 go 1.22.0
 
 use (
-    "pods/identity"
+
+    "."
+
+    "core"
+
+    // Clients
+    "api/identity"
+    "api/messages"
+
+    // Pods
+    "pod/identity"
+    "pod/discovery"
+    "pod/messages"
+    "pod/pannel"
 )
