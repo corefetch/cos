@@ -1,0 +1,2 @@
+build:
+	mkdir -p bin/

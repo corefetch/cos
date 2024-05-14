@@ -3,6 +3,7 @@ package main
 import (
 	"cos/core/sys"
 	"encoding/json"
+	"flag"
 	"net/http"
 	"net/http/httputil"
 	"net/url"
@@ -104,5 +105,11 @@ func (p *Proxy) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	http.ListenAndServe(":8600", &Proxy{})
+
+	port := flag.String("port", "8800", "Specify port to listen on")
+	flag.Parse()
+
+	sys.Logger().Infof("Listen on %s", *port)
+
+	http.ListenAndServe(":"+*port, &Proxy{})
 }
