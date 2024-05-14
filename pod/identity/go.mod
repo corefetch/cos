@@ -1,4 +1,4 @@
-module edx/pod/identity
+module cos/pod/identity
 
 go 1.22.0
 

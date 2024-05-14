@@ -12,7 +12,7 @@ use (
 
     // Pods
     "pod/identity"
-    "pod/discovery"
+    "pod/proxy"
     "pod/messages"
     "pod/pannel"
 )

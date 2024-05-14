@@ -1,24 +1,24 @@
 package api
 
 import (
-	"encoding/json"
+	"cos/core/service"
 	"net/http"
 	"strings"
 )
 
-func Me(w http.ResponseWriter, r *http.Request) {
+func Me(c service.Context) {
 
-	account, err := User(r)
+	account, err := User(c)
 
 	if err != nil {
-		w.WriteHeader(http.StatusUnauthorized)
+		c.Status(http.StatusUnauthorized)
 		return
 	}
 
-	metaFilter := strings.Split(r.URL.Query().Get("meta"), ",")
+	metaFilter := strings.Split(c.Query("meta"), ",")
 
-	if err := json.NewEncoder(w).Encode(account.DisplayWithMeta(metaFilter)); err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
+	if err := c.Write(account.DisplayWithMeta(metaFilter)); err != nil {
+		c.Status(http.StatusInternalServerError)
 		return
 	}
 }

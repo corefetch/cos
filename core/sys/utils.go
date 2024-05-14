@@ -15,6 +15,11 @@ func Logger() *zap.SugaredLogger {
 	return logger.Sugar()
 }
 
+func Init() {
+	LoadEnv()
+	NatsLoad()
+}
+
 func LoadEnv() {
 
 	devMode := flag.Bool("dev", false, "Run in development mode")

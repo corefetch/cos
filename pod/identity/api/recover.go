@@ -1,5 +1,7 @@
 package api
 
-import "net/http"
+import (
+	"cos/core/service"
+)
 
-func Recover(w http.ResponseWriter, r *http.Request) {}
+func Recover(c service.Context) {}

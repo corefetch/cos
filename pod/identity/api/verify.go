@@ -1,5 +1,7 @@
 package api
 
-import "net/http"
+import (
+	"cos/core/service"
+)
 
-func Verify(w http.ResponseWriter, r *http.Request) {}
+func Verify(c service.Context) {}

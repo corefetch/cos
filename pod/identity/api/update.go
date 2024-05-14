@@ -1,27 +1,26 @@
 package api
 
 import (
-	"edx/core/sys"
-	"edx/pod/identity/db"
-	"edx/pod/identity/do"
-	"encoding/json"
+	"cos/core/service"
+	"cos/core/sys"
+	"cos/pod/identity/db"
+	"cos/pod/identity/do"
 	"net/http"
 )
 
-func UpdateMe(w http.ResponseWriter, r *http.Request) {
+func UpdateMe(c service.Context) {
 
 	update := &db.Account{}
 
-	if err := json.NewDecoder(r.Body).Decode(update); err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte("specify a valid json"))
+	if err := c.Read(update); err != nil {
+		c.Error(http.StatusBadRequest, "specify a valid json")
 		return
 	}
 
-	account, err := User(r)
+	account, err := User(c)
 
 	if err != nil {
-		w.WriteHeader(http.StatusUnauthorized)
+		c.Status(http.StatusUnauthorized)
 		return
 	}
 
@@ -33,7 +32,7 @@ func UpdateMe(w http.ResponseWriter, r *http.Request) {
 		password, err := do.CreateSecurePassword(update.Password)
 
 		if err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
+			c.Status(http.StatusInternalServerError)
 			sys.Logger().Errorf("failed to update password: %s", err.Error())
 			return
 		}
@@ -44,31 +43,31 @@ func UpdateMe(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err := account.Save(); err != nil {
-		w.WriteHeader(http.StatusBadRequest)
+		c.Status(http.StatusBadRequest)
 		return
 	}
 }
 
-func UpdateMeta(w http.ResponseWriter, r *http.Request) {
+func UpdateMeta(c service.Context) {
 
 	meta := make(map[string]string)
 
-	if err := json.NewDecoder(r.Body).Decode(&meta); err != nil {
-		w.WriteHeader(http.StatusBadRequest)
+	if err := c.Read(&meta); err != nil {
+		c.Status(http.StatusBadRequest)
 		return
 	}
 
-	account, err := User(r)
+	account, err := User(c)
 
 	if err != nil {
-		w.WriteHeader(http.StatusUnauthorized)
+		c.Status(http.StatusUnauthorized)
 		return
 	}
 
 	account.Meta = meta
 
 	if err := account.Save(); err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
+		c.Status(http.StatusInternalServerError)
 		sys.Logger().Error("failed to update meta: ", err)
 		return
 	}

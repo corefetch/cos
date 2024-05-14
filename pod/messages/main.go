@@ -1,18 +1,20 @@
 package main
 
 import (
-	"edx/core"
-	"edx/core/sys"
-	"edx/pod/messages/api"
+	"cos/core"
+	"cos/core/sys"
+	"cos/pod/messages/api"
+	"fmt"
 	"net/http"
 	"os"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/nats-io/nats.go"
 )
 
 func main() {
 
-	sys.LoadEnv()
+	sys.Init()
 
 	mux := chi.NewMux()
 
@@ -20,6 +22,11 @@ func main() {
 	mux.Post("/templates", core.NoOp)
 	mux.Put("/templates/{id}", core.NoOp)
 	mux.Delete("/template/{id}", core.NoOp)
+
+	sys.Events().Subscribe("identity.create", func(msg *nats.Msg) {
+		fmt.Println(msg.Subject)
+		fmt.Println(msg.Data)
+	})
 
 	listen := os.Getenv("LISTEN")
 

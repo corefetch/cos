@@ -1,8 +1,8 @@
 package db
 
 import (
+	"cos/core/sys"
 	"database/sql"
-	"edx/core/sys"
 	"fmt"
 	"strings"
 	"time"

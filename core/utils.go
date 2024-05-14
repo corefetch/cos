@@ -1,7 +1,7 @@
 package core
 
-import "net/http"
+import (
+	"cos/core/service"
+)
 
-func NoOp(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("noop"))
-}
+func NoopAnt(ctx service.Context) {}

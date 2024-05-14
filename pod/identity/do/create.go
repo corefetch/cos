@@ -1,10 +1,11 @@
 package do
 
 import (
-	"edx/api/messages"
-	"edx/core/sys"
-	"edx/pod/identity/db"
-	"edx/pod/messages/ob"
+	"cos/api/messages"
+	"cos/core/sys"
+	"cos/pod/identity/db"
+	"cos/pod/messages/ob"
+	"fmt"
 	"net/mail"
 	"os"
 	"regexp"
@@ -44,6 +45,8 @@ func CreateAccount(account *db.Account) (err error) {
 	if err := account.Save(); err != nil {
 		return err
 	}
+
+	sys.Events().Publish("identity.created", []byte(fmt.Sprint(account.ID)))
 
 	if os.Getenv("VERIFICATION") == "true" {
 

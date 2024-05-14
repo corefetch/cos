@@ -1,4 +1,4 @@
-module edx/pod/discovery
+module cos/pod/discovery
 
 go 1.22.0
 

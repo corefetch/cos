@@ -1,30 +1,32 @@
 package api
 
 import (
-	"edx/pod/identity/db"
-	"edx/pod/identity/do"
-	"encoding/json"
+	"cos/core/service"
+	"cos/core/sys"
+	"cos/pod/identity/db"
+	"cos/pod/identity/do"
 	"net/http"
 )
 
-func Create(w http.ResponseWriter, r *http.Request) {
+func Create(c service.Context) {
 
 	account := &db.Account{}
 
-	if err := json.NewDecoder(r.Body).Decode(account); err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte("specify a valid json"))
+	if err := c.Read(&account); err != nil {
+		c.Error(http.StatusBadRequest, "spcify a valid json")
 		return
 	}
+
+	sys.Logger().Infof("Creating account for login %s", account.Login)
 
 	if err := do.CreateAccount(account); err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte(err.Error()))
+		sys.Logger().Errorf("error creating account: ", err.Error())
+		c.Error(http.StatusBadRequest, err)
 		return
 	}
 
-	if err := json.NewEncoder(w).Encode(account.Display()); err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
+	if err := c.Write(account.Display()); err != nil {
+		c.Status(http.StatusInternalServerError)
 		return
 	}
 }

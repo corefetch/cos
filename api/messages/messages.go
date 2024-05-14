@@ -1,6 +1,6 @@
 package messages
 
-import "edx/pod/messages/ob"
+import "cos/pod/messages/ob"
 
 func Send(to ob.Recipient, template string, args *ob.Args) (err error) {
 	return

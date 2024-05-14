@@ -8,6 +8,8 @@ import { Menu } from 'antd';
 
 const AsideWrapper = styled.div`
     width: 200px;
+    display: flex;
+    flex-direction: column;
     border-right: 1px solid var(--main-border-color);
 `;
 
@@ -26,7 +28,8 @@ const Separator = styled.div`
 `;
 
 const MenuContainer = styled.div`
-
+    overflow: scroll-y;
+    flex: 1;
 `;
 
 type MenuItem = Required<MenuProps>['items'][number];
@@ -39,12 +42,12 @@ const items: MenuItem[] = [
         icon: <AppstoreOutlined />,
     },
     {
-        label: 'Accounts',
-        key: 'edx.accounts',
+        label: 'Identity',
+        key: 'edx.identity',
         icon: <UserSwitchOutlined />,
         children: [
-            { label: 'List', key: 'edx.accounts.list' },
-            { label: 'Pending', key: 'edx.accounts.pending' },
+            { label: 'List', key: 'edx.identity.list' },
+            { label: 'Pending', key: 'edx.identity.pending' },
         ]
     },
     {
@@ -62,6 +65,7 @@ const items: MenuItem[] = [
         icon: <MailOutlined />,
         children: [
             { label: 'Templates', key: 'edx.messages.templates' },
+            { label: 'Campaigns', key: 'edx.messages.campaigns' },
             { label: 'Settings', key: 'edx.messages.settings' },
         ]
     },
@@ -84,8 +88,8 @@ const items: MenuItem[] = [
         key: 'edx.services',
         icon: <ClusterOutlined />,
         children: [
-            { label: 'Discovery', key: 'edx.services.discovery' },
             { label: 'Cloud', key: 'edx.services.cloud' },
+            { label: 'Marketplace', key: 'edx.services.marketplace' },
         ]
     },
 ];
@@ -117,6 +121,10 @@ const Aside: React.FC = () => {
                     items={items}
                 />
             </MenuContainer>
+            <Separator/>
+            <div className="aside-footer">
+                Footer
+            </div>
         </AsideWrapper>
     )
 }

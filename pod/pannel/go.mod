@@ -1,3 +1,3 @@
-module edx/pod/pannel
+module cos/pod/pannel
 
 go 1.22.0

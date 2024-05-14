@@ -1,5 +1,7 @@
 package api
 
-import "net/http"
+import (
+	"cos/core/service"
+)
 
-func Health(w http.ResponseWriter, r *http.Request) {}
+func Health(c service.Context) {}

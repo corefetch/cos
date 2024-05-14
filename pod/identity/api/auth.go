@@ -1,29 +1,28 @@
 package api
 
 import (
-	"edx/core/sys"
-	"edx/pod/identity/db"
-	"encoding/json"
+	"cos/core/service"
+	"cos/core/sys"
+	"cos/pod/identity/db"
 	"net/http"
 	"time"
 
 	"golang.org/x/crypto/bcrypt"
 )
 
-func Auth(w http.ResponseWriter, r *http.Request) {
+func Auth(c service.Context) {
 
 	account := &db.Account{}
 
-	if err := json.NewDecoder(r.Body).Decode(account); err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte("specify a valid json"))
+	if err := c.Read(&account); err != nil {
+		c.Error(http.StatusBadRequest, "specify a valid json")
 		return
 	}
 
 	existent, err := db.FindAccountByLogin(account.Login)
 
 	if err != nil {
-		w.WriteHeader(http.StatusUnauthorized)
+		c.Status(http.StatusUnauthorized)
 		return
 	}
 
@@ -33,7 +32,7 @@ func Auth(w http.ResponseWriter, r *http.Request) {
 	)
 
 	if err != nil {
-		w.WriteHeader(http.StatusUnauthorized)
+		c.Status(http.StatusUnauthorized)
 		return
 	}
 
@@ -45,7 +44,7 @@ func Auth(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		sys.Logger().Error("Failed to create key for authorization")
-		w.WriteHeader(http.StatusInternalServerError)
+		c.Status(http.StatusInternalServerError)
 		return
 	}
 
@@ -53,8 +52,8 @@ func Auth(w http.ResponseWriter, r *http.Request) {
 		"access": key,
 	}
 
-	if err := json.NewEncoder(w).Encode(response); err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
+	if err := c.Write(response); err != nil {
+		c.Status(http.StatusInternalServerError)
 		return
 	}
 }

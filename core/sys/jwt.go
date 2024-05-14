@@ -1,11 +1,11 @@
 package sys
 
 import (
+	"cos/core/service"
 	"crypto/rand"
 	"crypto/rsa"
 	"encoding/json"
 	"errors"
-	"net/http"
 	"strings"
 	"time"
 
@@ -56,13 +56,13 @@ func CreateAuthKey(context AuthContext) (key string, err error) {
 	return object.CompactSerialize()
 }
 
-func AuthContextFromRequest(r *http.Request) (context *AuthContext, err error) {
+func AuthContextFromRequest(c service.Context) (context *AuthContext, err error) {
 
-	key := r.URL.Query().Get("access_token")
+	key := c.Query("access_token")
 
 	if key == "" {
 
-		bearer := strings.Split(r.Header.Get("Authorization"), "Bearer ")
+		bearer := strings.Split(c.Header("Authorization"), "Bearer ")
 
 		if len(bearer) == 2 {
 			key = bearer[1]

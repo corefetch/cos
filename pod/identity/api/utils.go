@@ -1,14 +1,15 @@
 package api
 
 import (
-	"edx/core/sys"
-	"edx/pod/identity/db"
+	"cos/core/service"
+	"cos/core/sys"
+	"cos/pod/identity/db"
 	"net/http"
 )
 
-func User(r *http.Request) (account *db.Account, err error) {
+func User(c service.Context) (account *db.Account, err error) {
 
-	ctx, err := sys.AuthContextFromRequest(r)
+	ctx, err := sys.AuthContextFromRequest(c)
 
 	if err != nil {
 		return nil, err
@@ -17,16 +18,16 @@ func User(r *http.Request) (account *db.Account, err error) {
 	return db.FindAccountByID(ctx.User)
 }
 
-func AuthGuard(next http.HandlerFunc) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
+func AuthGuard(next service.Handler) service.Handler {
+	return func(c service.Context) {
 
-		ctx, err := sys.AuthContextFromRequest(r)
+		ctx, err := sys.AuthContextFromRequest(c)
 
 		if err != nil || ctx == nil {
-			w.WriteHeader(http.StatusUnauthorized)
+			c.Status(http.StatusUnauthorized)
 			return
 		}
 
-		next(w, r)
+		next(c)
 	}
 }

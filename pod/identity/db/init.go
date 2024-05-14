@@ -1,8 +1,8 @@
 package db
 
 import (
+	"cos/core/sys"
 	"database/sql"
-	"edx/core/sys"
 	"os"
 
 	_ "github.com/lib/pq"
