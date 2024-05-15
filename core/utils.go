@@ -1,7 +1,7 @@
 package core
 
 import (
-	"cos/core/service"
+	"gom/core/service"
 )
 
 func NoopAnt(ctx service.Context) {}

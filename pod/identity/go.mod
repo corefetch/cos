@@ -1,4 +1,4 @@
-module cos/pod/identity
+module gom/pod/identity
 
 go 1.22.0
 

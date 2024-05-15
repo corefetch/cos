@@ -38,58 +38,58 @@ type MenuItem = Required<MenuProps>['items'][number];
 const items: MenuItem[] = [
     {
         label: 'Dashboard',
-        key: 'edx.dashboard',
+        key: 'gom.dashboard',
         icon: <AppstoreOutlined />,
     },
     {
         label: 'Identity',
-        key: 'edx.identity',
+        key: 'gom.identity',
         icon: <UserSwitchOutlined />,
         children: [
-            { label: 'List', key: 'edx.identity.list' },
-            { label: 'Pending', key: 'edx.identity.pending' },
+            { label: 'List', key: 'gom.identity.list' },
+            { label: 'Pending', key: 'gom.identity.pending' },
         ]
     },
     {
         label: 'Database',
-        key: 'edx.database',
+        key: 'gom.database',
         icon: <DatabaseOutlined />,
         children: [
-            { label: 'Schema', key: 'edx.database.schema' },
-            { label: 'Data View', key: 'edx.database.view' },
+            { label: 'Schema', key: 'gom.database.schema' },
+            { label: 'Data View', key: 'gom.database.view' },
         ]
     },
     {
         label: 'Emails',
-        key: 'edx.messages',
+        key: 'gom.messages',
         icon: <MailOutlined />,
         children: [
-            { label: 'Templates', key: 'edx.messages.templates' },
-            { label: 'Campaigns', key: 'edx.messages.campaigns' },
-            { label: 'Settings', key: 'edx.messages.settings' },
+            { label: 'Templates', key: 'gom.messages.templates' },
+            { label: 'Campaigns', key: 'gom.messages.campaigns' },
+            { label: 'Settings', key: 'gom.messages.settings' },
         ]
     },
     {
         label: 'Support',
-        key: 'edx.support',
+        key: 'gom.support',
         icon: <WechatOutlined />,
         children: [
-            { label: 'Messages', key: 'edx.support.messages' },
-            { label: 'Settings', key: 'edx.support.settings' },
+            { label: 'Messages', key: 'gom.support.messages' },
+            { label: 'Settings', key: 'gom.support.settings' },
         ]
     },
     {
         label: 'Settings',
-        key: 'edx.settings',
+        key: 'gom.settings',
         icon: <SettingOutlined/>,
     },
     {
         label: 'System Services',
-        key: 'edx.services',
+        key: 'gom.services',
         icon: <ClusterOutlined />,
         children: [
-            { label: 'Cloud', key: 'edx.services.cloud' },
-            { label: 'Marketplace', key: 'edx.services.marketplace' },
+            { label: 'Cloud', key: 'gom.services.cloud' },
+            { label: 'Marketplace', key: 'gom.services.marketplace' },
         ]
     },
 ];

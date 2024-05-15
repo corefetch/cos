@@ -1,9 +1,9 @@
 package main
 
 import (
-	"cos/core/sys"
 	"encoding/json"
 	"flag"
+	"gom/core/sys"
 	"net/http"
 	"net/http/httputil"
 	"net/url"
@@ -16,58 +16,61 @@ type Entry struct {
 	Addr string `json:"addr"`
 }
 
-func (current Entry) Compare(entry Entry) bool {
-	return current.Addr == entry.Addr && current.Name == entry.Name
-}
-
 var entries = make([]Entry, 0)
 
 type Proxy struct{}
 
 func (p *Proxy) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
+	// create new entry on index posting
 	if r.Method == "POST" && r.URL.Path == "/" {
 
+		// create the entry to fill up
 		entry := Entry{}
 
+		// decode payload into the entry struct
 		if err := json.NewDecoder(r.Body).Decode(&entry); err != nil {
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
 
+		// verify service name is defined
 		if entry.Name == "" {
 			w.WriteHeader(http.StatusBadRequest)
 			w.Write([]byte("please specify name"))
 			return
 		}
 
+		// verify address name is defined
 		if entry.Addr == "" {
 			w.WriteHeader(http.StatusBadRequest)
 			w.Write([]byte("please specify addr"))
 			return
 		}
 
-		_, err := url.Parse(entry.Addr)
-
-		if err != nil {
+		// parse address for validation
+		if _, err := url.Parse(entry.Addr); err != nil {
 			w.WriteHeader(http.StatusBadRequest)
 			w.Write([]byte("please specify a valid service addr"))
 			return
 		}
 
+		// verifty entry does not already exists
 		for _, current := range entries {
-			if current.Compare(entry) {
+			if current.Addr == entry.Addr && current.Name == entry.Name {
 				w.WriteHeader(http.StatusConflict)
 				return
 			}
 		}
 
+		// append the new entry
 		entries = append(entries, entry)
-
 		w.WriteHeader(http.StatusCreated)
 
 		return
 	}
+
+	// try to proxy the request to the service
 
 	var service = strings.Split(r.URL.Path, "/")
 
@@ -81,6 +84,7 @@ func (p *Proxy) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	// service not found
 	if found == nil {
 		w.WriteHeader(http.StatusNotFound)
 		return

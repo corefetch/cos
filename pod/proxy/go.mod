@@ -1,3 +1,3 @@
-module cos/pod/proxy
+module gom/pod/proxy
 
 go 1.22.0

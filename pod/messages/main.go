@@ -1,10 +1,10 @@
 package main
 
 import (
-	"cos/core"
-	"cos/core/sys"
-	"cos/pod/messages/api"
 	"fmt"
+	"gom/core"
+	"gom/core/sys"
+	"gom/pod/messages/api"
 	"net/http"
 	"os"
 

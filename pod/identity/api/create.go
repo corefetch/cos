@@ -1,10 +1,10 @@
 package api
 
 import (
-	"cos/core/service"
-	"cos/core/sys"
-	"cos/pod/identity/db"
-	"cos/pod/identity/do"
+	"gom/core/service"
+	"gom/core/sys"
+	"gom/pod/identity/db"
+	"gom/pod/identity/do"
 	"net/http"
 )
 

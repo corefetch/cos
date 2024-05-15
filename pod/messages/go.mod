@@ -1,4 +1,4 @@
-module cos/pod/messages
+module gom/pod/messages
 
 go 1.22.0
 

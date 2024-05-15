@@ -1,9 +1,9 @@
 package api
 
 import (
-	"cos/core/service"
-	"cos/core/sys"
-	"cos/pod/identity/db"
+	"gom/core/service"
+	"gom/core/sys"
+	"gom/pod/identity/db"
 	"net/http"
 )
 

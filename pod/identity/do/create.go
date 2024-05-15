@@ -1,11 +1,11 @@
 package do
 
 import (
-	"cos/api/messages"
-	"cos/core/sys"
-	"cos/pod/identity/db"
-	"cos/pod/messages/ob"
 	"fmt"
+	"gom/api/messages"
+	"gom/core/sys"
+	"gom/pod/identity/db"
+	"gom/pod/messages/ob"
 	"net/mail"
 	"os"
 	"regexp"

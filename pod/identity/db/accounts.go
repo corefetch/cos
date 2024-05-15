@@ -1,9 +1,9 @@
 package db
 
 import (
-	"cos/core/sys"
 	"database/sql"
 	"fmt"
+	"gom/core/sys"
 	"strings"
 	"time"
 )

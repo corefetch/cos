@@ -1,10 +1,10 @@
 package main
 
 import (
-	"cos/core/service"
-	"cos/core/sys"
-	"cos/pod/identity/api"
-	"cos/pod/identity/db"
+	"gom/core/service"
+	"gom/core/sys"
+	"gom/pod/identity/api"
+	"gom/pod/identity/db"
 	"net/http"
 	"os"
 )

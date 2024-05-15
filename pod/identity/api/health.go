@@ -1,7 +1,7 @@
 package api
 
 import (
-	"cos/core/service"
+	"gom/core/service"
 )
 
 func Health(c service.Context) {}
