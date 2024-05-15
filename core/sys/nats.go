@@ -25,7 +25,7 @@ func NatsLoad() {
 		return
 	}
 
-	Logger().Infof("Connecting to %s", natsURL)
+	Logger().Info("Connecting to nats")
 
 	conn, err := nats.Connect(
 		natsURL,

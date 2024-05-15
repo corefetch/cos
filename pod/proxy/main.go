@@ -11,7 +11,6 @@ import (
 )
 
 type Entry struct {
-	ID   int64  `json:"id"`
 	Name string `json:"name"`
 	Addr string `json:"addr"`
 }
@@ -67,6 +66,12 @@ func (p *Proxy) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		entries = append(entries, entry)
 		w.WriteHeader(http.StatusCreated)
 
+		return
+	}
+
+	if r.Method == "GET" && r.URL.Path == "/registry" {
+		w.Header().Add("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(entries)
 		return
 	}
 

@@ -18,6 +18,10 @@ type Account struct {
 	Created  time.Time         `json:"created"`
 }
 
+func (a *Account) FirstName() string {
+	return a.Names[0]
+}
+
 func (a *Account) SendTo() string {
 	return a.Login
 }

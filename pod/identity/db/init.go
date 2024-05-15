@@ -16,11 +16,11 @@ func Init() {
 
 	dburi := os.Getenv("DB")
 
-	sys.Logger().Info("Database connecting...")
-
 	db, err = sql.Open("postgres", dburi)
 
 	if err != nil {
 		sys.Logger().Fatalf("Failed to connect to %s", dburi)
 	}
+
+	sys.Logger().Info("Connected to database")
 }

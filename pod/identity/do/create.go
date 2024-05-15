@@ -50,15 +50,20 @@ func CreateAccount(account *db.Account) (err error) {
 
 	if os.Getenv("VERIFICATION") == "true" {
 
-		sys.Logger().Info("Send verification code")
+		key, err := sys.Encrypt(account.Login, "secret_key_for_verification_code")
 
-		err = messages.Send(account, "account.verify", &ob.Args{
-			"CODE": "",
+		if err != nil {
+			return err
+		}
+
+		sys.Events().Publish("identity.verify.send", []byte(fmt.Sprint(account.ID)))
+
+		err = messages.Send(account, "VERIFY_EMAIL", &ob.Args{
+			"KEY": key,
 		})
 
 		if err != nil {
-			sys.Logger().Errorf("Failed to send verification code:", err.Error())
-			return
+			sys.Logger().Errorf("failed to send verification email:%s", err.Error())
 		}
 	}
 
